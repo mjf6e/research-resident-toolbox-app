@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Research Resident Virtual Toolbox — UVA Department of Surgery</title>
+<meta name="description" content="Searchable directory of the resources, websites, and contacts shared by faculty presenters in the DOS RIP Training & Forum and the annual July Boot Camp.">
+<meta name="theme-color" content="#232D4B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Toolbox">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-512.png" sizes="512x512" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=Libre+Franklin:wght@300;400;600;700&family=Bodoni+Moda:ital,wght@1,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#232D4B; --orange:#E57200; --navy-25:#C8CBD2; --orange-25:#F9DCBF;
+    --gray-light:#F1F1EF; --hairline:#DADADA; --card-border:#E5E5E2;
+    --muted:#666666; --ink:#3a4055; --link:#495E9D;
+    --serif:"Libre Caslon Text",Georgia,serif;
+    --sans:"Libre Franklin",system-ui,-apple-system,sans-serif;
+    --num:"Bodoni Moda",Georgia,serif;
+    --top:env(safe-area-inset-top); --bottom:env(safe-area-inset-bottom);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{background:var(--gray-light);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+  a{color:var(--link);text-decoration:none}
+  #app{min-height:100%;display:flex;flex-direction:column}
+  .screen{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+
+  /* ---- navy header (hero + list + detail) ---- */
+  .hd{position:relative;overflow:hidden;background:var(--navy);flex:none;
+      padding:calc(var(--top) + 22px) 20px 22px}
+  .hd.hero{padding:calc(var(--top) + 34px) 24px 26px}
+  .ring{position:absolute;border-radius:50%;border:1px solid rgba(229,114,0,.3);pointer-events:none}
+  .r1{top:-120px;right:-160px;width:420px;height:420px;border-color:rgba(229,114,0,.4)}
+  .r2{top:-60px;right:-100px;width:300px;height:300px;border-color:rgba(229,114,0,.28)}
+  .r3{top:-10px;right:-40px;width:180px;height:180px;border-color:rgba(229,114,0,.18)}
+  .eyebrow{position:relative;font:700 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
+  .hero h1{position:relative;font:700 clamp(30px,9vw,38px)/1.04 var(--serif);color:#fff;margin:12px 0 0}
+  .search{position:relative;margin-top:20px;display:flex;align-items:center;gap:10px;
+    background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:4px;padding:13px 14px;min-height:48px}
+  .search input{flex:1;min-width:0;background:none;border:0;outline:none;font:400 15px/1.2 var(--sans);color:#fff}
+  .search input::placeholder{color:var(--navy-25)}
+  .sugg{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .sugg button{font:600 12.5px/1 var(--sans);color:var(--navy-25);background:none;
+    border:1px solid rgba(200,203,210,.35);padding:11px 14px;border-radius:999px;white-space:nowrap;cursor:pointer}
+  .sugg button:active{border-color:var(--orange);color:#fff}
+  .hrow{position:relative;display:flex;align-items:center;gap:10px}
+  .back{background:none;border:0;color:var(--navy-25);font:400 26px/1 var(--sans);padding:6px 10px 6px 0;cursor:pointer;min-height:44px}
+  .htitle{flex:1;font:700 21px/1.15 var(--serif);color:#fff}
+  .hcount{font:400 11.5px/1 var(--sans);color:var(--navy-25);white-space:nowrap}
+  .chips{position:relative;display:flex;gap:8px;margin-top:12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .chips::-webkit-scrollbar{display:none}
+  .chips button{flex:none;font:600 12.5px/1 var(--sans);white-space:nowrap;padding:11px 14px;border-radius:4px;
+    background:rgba(255,255,255,.06);border:1px solid rgba(200,203,210,.35);color:var(--navy-25);cursor:pointer;min-height:44px}
+  .chips button[aria-pressed=true]{background:var(--orange);border-color:var(--orange);color:#fff}
+
+  /* ---- body ---- */
+  .body{flex:1;background:var(--gray-light);padding-bottom:calc(var(--bottom) + 40px)}
+  .label{font:700 10px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .hero-body{padding:22px 20px 0;display:flex;flex-direction:column;gap:12px}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tile{background:#fff;border:1px solid var(--card-border);padding:16px 14px 18px;min-height:112px;
+    display:flex;flex-direction:column;justify-content:space-between;text-align:left;cursor:pointer;font:inherit}
+  .tile:active{border-color:var(--navy)}
+  .tile .n{font:italic 700 15px/1 var(--num);color:var(--orange)}
+  .tile span{display:block}
+  .tile .t{font:700 16px/1.15 var(--serif);color:var(--navy)}
+  .tile .s{font:400 12px/1.35 var(--sans);color:var(--muted);margin-top:3px}
+  .out{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;
+    border:1px solid var(--card-border);border-left:4px solid var(--navy);padding:15px 16px;min-height:56px}
+  .out.hi{border-left-color:var(--orange)}
+  .out span{display:block;text-align:left}
+  .out .t{font:600 14px/1.3 var(--sans);color:var(--navy)}
+  .out .s{font:400 12px/1.35 var(--sans);color:var(--muted);margin-top:3px}
+  .out .arrow{font:400 16px/1 var(--sans);color:var(--navy)}
+  .out.hi .arrow{color:var(--orange)}
+  .fine{padding:18px 0 8px;font:400 11.5px/1.5 var(--sans);color:var(--muted)}
+
+  /* ---- rows ---- */
+  .row{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:#fff;
+    border:0;border-bottom:1px solid var(--hairline);padding:16px 20px;cursor:pointer;font:inherit}
+  .row:active{background:#F9F9F7}
+  .row .col{flex:1;min-width:0}
+  .tag{font:700 9.5px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+    padding:5px 7px;display:inline-block;margin-bottom:8px}
+  .row .name{font:700 17px/1.2 var(--serif);color:var(--navy)}
+  .row .sub{font:400 12.5px/1.45 var(--sans);color:var(--muted);margin-top:4px}
+  .row .meta{font:600 12px/1.4 var(--sans);color:var(--link);margin-top:8px;white-space:nowrap}
+  .row .chev{font:400 15px/1.6 var(--sans);color:var(--navy-25)}
+  .empty{padding:56px 32px;text-align:center;font:400 14px/1.6 var(--sans);color:var(--muted)}
+
+  /* ---- detail ---- */
+  .dtag{position:relative;font:700 10px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;color:var(--orange)}
+  .dname{position:relative;font:700 clamp(23px,6.5vw,27px)/1.14 var(--serif);color:#fff;margin-top:14px}
+  .drole{position:relative;font:400 13px/1.5 var(--sans);color:var(--navy-25);margin-top:8px}
+  .sect{background:#fff;border-bottom:1px solid var(--hairline);padding:20px}
+  .sect .k{font:700 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .sect .k.acc{color:var(--orange)}
+  .talk{font:600 16px/1.4 var(--sans);color:var(--navy);margin-top:9px}
+  .tmeta{font:400 12.5px/1.45 var(--sans);color:var(--muted);margin-top:6px}
+  .item{display:flex;gap:10px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--gray-light);
+    width:100%;text-align:left;background:none;border-left:0;border-right:0;border-top:0;cursor:pointer;font:inherit}
+  .item .dot{color:var(--orange)}
+  .item .col{flex:1;min-width:0;display:block}
+  .item .p{font:600 13.5px/1.45 var(--sans);color:var(--link);overflow-wrap:anywhere}
+  .item .q{font:400 11.5px/1.4 var(--sans);color:#8a8f9c;overflow-wrap:anywhere;margin-top:2px}
+  .item .ext{font:400 13px/1.6 var(--sans);color:var(--navy-25)}
+  .callout{background:var(--orange-25);border-left:4px solid var(--orange);padding:18px 20px;display:flex;gap:12px}
+  .callout .star{font:400 15px/1.3 var(--sans);color:var(--orange)}
+  .callout .txt{font:400 13px/1.6 var(--sans);color:var(--navy)}
+  @media (min-width:640px){
+    #app{max-width:520px;margin:0 auto;background:var(--gray-light);
+      box-shadow:0 0 0 1px var(--card-border)}
+    .tiles{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const BOX = "https://virginia.box.com/s/2glx4ns9crwsdx9zk6gnxwned7t2w55n";
+
+const DATA = [
+  { name:"Stefan Bekiranov, PhD", type:"rip", role:"Biochemistry & Molecular Genetics; Carter Immunology Center; iPRIME Initiative", talk:"Functional Genomics Data Repositories and Tools (Data Mining Resources to Support Research)", meta:"RIP series (also presented at Boot Camp)", topics:"genomics data mining bioinformatics single cell rna-seq repositories", emails:[], links:[
+    ["UCSC Genome Browser","https://genome.ucsc.edu"],["ENCODE","https://www.encodeproject.org"],["GWAS Catalog","https://www.ebi.ac.uk/gwas/"],["GTEx Portal","https://www.gtexportal.org/home/"],["Human Protein Atlas","https://www.proteinatlas.org"],["TOPMed","https://topmed.nhlbi.nih.gov"],["The Cancer Genome Atlas (TCGA)","https://www.cancer.gov/ccg/research/genome-sequencing/tcga"],["cBioPortal","https://www.cbioportal.org"],["UVA HSL data workshops","https://guides.hsl.virginia.edu/data/workshops"],["Foundations of Computational Genomics (BIMS8601)","https://cphg.github.io/compgen/"],["Intro to Computational Biology I/II (BIMS 8701 & 8702)","https://cphg.github.io/compbio/"],["Software Carpentry — UNIX Shell","https://swcarpentry.github.io/shell-novice/"],["Data Carpentry — R & RStudio for Genomics","https://datacarpentry.org/genomics-r-intro/"],["Seurat single-cell tutorials","https://satijalab.org/seurat/"]] },
+  { name:"Elizabeth Mulcahy, PhD", type:"bootcamp", role:"Partners in Discovery Program Director, UVA Comprehensive Cancer Center", talk:"Cancer Data Resources Available to the Research Community", meta:"Boot Camp — July 17, 2026 (also RIP, Nov 2025)", topics:"epic cosmos orien cbioportal trinetx emerse caris manifold ai datamart cancer registry data access genomics biospecimens", emails:["Elizabeth.Mulcahy@uvahealth.org","qx3k@uvahealth.org","researchdata@uvahealth.org — TriNetX / EMERSE","cancerregistry@uvahealth.org — Cancer Registry"], links:[["Manifold Cancer Data Management (log in via UVA NetBadge)","https://uva.sc.manifold.ai/"],["Tempus oncology publications","https://www.tempus.com/publications/?post-search=&filter=oncology"],["View full deck (Box folder)",BOX]], extra:"Free data systems covered: Manifold (agentic-AI cohort discovery; UVA + public datasets TCGA, GTEx, DepMap, Human Protein Atlas; bring-your-own-data), Cancer Registry, TriNetX, EMERSE, Caris CODEai, ORIEN cBioPortal & Patient Timeline, ORIEN Galaxy Atlas (upcoming), Epic Cosmos, and the Cancer Research DataMart. Most are self-serve; some need CITI training or IRB approval. Email Dr. Mulcahy for Manifold access." },
+  { name:"Katie Rea", type:"rip", role:"SOM Clinical Trials Unit", talk:"Human Subjects Research: FAQs for UVA Principal Investigators", meta:"RIP — March 20, 2026", topics:"human subjects research IRB HSR PI responsibilities GCP CITI regulatory clinical trials", emails:["uva-crps@virginia.edu","somctued@uvahealth.org"], links:[["Mentimeter (knowledge checks)","https://www.mentimeter.com/app/dashboard"]], extra:"Tools named: HuRON, OnCore, CRConnect 2.0, Protocol Builder, Florence eBinders, REDCap, Advarra EDC, Research Data Exchange, Qualtrics, TriNetX, Epic SlicerDicer, ClinicalTrials.gov." },
+  { name:"Craig Slingluff, MD & Vic Laubach, PhD", type:"rip", role:"T32 Program Directors (Surgical Oncology / TCV)", talk:"Individual Development Plan (IDP)", meta:"RIP — August 2, 2024", topics:"IDP individual development plan T32 mentoring myidp career goals", emails:[], links:[["myIDP (Science Careers)","http://myidp.sciencecareers.org"]], extra:"Required for every NIH T32 trainee; performance evaluation every 3–4 months. Final T32 reviews go to Erin Haggard (Surg Onc) or Tony Herring (TCV)." },
+  { name:"Whitney McClendon, Erin Haggard & Kimberly Rogers", type:"bootcamp", role:"Pre-Award (McClendon) / Post-Award (Haggard & Rogers), DOS Research Administration", talk:"Research Administration Structure", meta:"Boot Camp 2024–2026", topics:"grants funding pre-award post-award researchpbh budget grantforward deadlines biosketch sciencv orcid era commons", emails:["wml4t@virginia.edu — Whitney McClendon (Pre-Award), 434-924-5031","quw7kd@uvahealth.org — Erin Haggard (Post-Award), 380-269-9064","KR6TC@uvahealth.org — Kimberly Rogers (Post-Award)"], links:[["NIH RePORTER","https://reporter.nih.gov/"],["ClinicalTrials.gov","https://clinicaltrials.gov/"],["SciENcv (link ORCID for NIH biosketch)","https://www.ncbi.nlm.nih.gov/sciencv/"],["ORCID","https://orcid.org/"],["View full deck (Box folder)",BOX]], extra:"Submissions route through ResearchPBH (intent 30 days prior, admin docs 10 business days, scientific 4 business days). Biosketch now uses the Common Form with ORCID linked to SciENcv and eRA Commons, limited to 10 publications; PIs certify each document. Funding sources: SOM weekly email, UVA Cancer Center funding page, DoS Funding Opportunity Microsite (Genially), and GrantForward (Michael Freeman sets up resident profiles)." },
+  { name:"Ankush Gosain, MD, PhD, MBA, FACS, FAAP", type:"bootcamp", role:"Surgeon-in-Chief, UVA Health Children's Hospital; Division Chief, Pediatric Surgery", talk:"Grant Writing: Pearls & Pitfalls", meta:"Boot Camp — July 2025", topics:"grant writing nih specific aims significance innovation scoring program officer", emails:["Ankush.Gosain@uvahealth.org"], links:[["NIH RePORTER","https://reporter.nih.gov/"],["ClinicalTrials.gov","https://clinicaltrials.gov/"],["Surgery 2021;170(4):1080-1082 — grant perception","https://pubmed.ncbi.nlm.nih.gov/33902925/"],["Surgery 2021;169(4):816-820 — Specific Aims","https://pubmed.ncbi.nlm.nih.gov/32709487/"],["Surgery 2021;170(6):1727-1731 — summary","https://pubmed.ncbi.nlm.nih.gov/34294451/"],["View full deck (Box folder)",BOX]] },
+  { name:"Kim Bullock, PhD, CCRP (with Katie Rea)", type:"bootcamp", role:"Professor of Research, DOS; Director of Protocol Development, UVA Comprehensive Cancer Center", talk:"Institutional Review Board (IRB) Submissions", meta:"Boot Camp 2024–2026", topics:"IRB HSR protocol builder exempt expedited full board submissions regulatory CITI GCP", emails:["kb9d@uvahealth.org","qda4md@virginia.edu — Stephanie Keister, Post-Approval Monitor"], links:[["IRB-HSR (training & researcher guide)","https://hrpp.research.virginia.edu/teams/irb-hsr"],["Evaluate My Project (non-HSR tool)","https://hrpp.research.virginia.edu/non-human-subject-research"],["IRB Online / Protocol Builder","https://research.virginia.edu/irb-hsr"],["Exemption determination","https://research.virginia.edu/irb-hsr/determination-exemption"],["STAC","https://med.virginia.edu/surgery/research/surgical-therapeutic-advancement-center-stac/"],["SOM Clinical Trials Unit","https://med.virginia.edu/clinicalresearch/clinical-trials-unit/"],["Cancer Center Protocol Development Team","https://med.virginia.edu/cancer-research/research-resources/office-of-clinical-research/protocol-development-team/"],["View full deck (Box folder)",BOX]] },
+  { name:"Andrea H. Denton, MILS & David N. Martin, PhD", type:"bootcamp", role:"Research & Data Services, Claude Moore Health Sciences Library", talk:"Library Research & Data Support / Systematic Reviews & Meta-analyses", meta:"Boot Camp 2024–2026", topics:"library systematic review meta-analysis covidence zotero endnote rayyan prospero libkey embase virgo data services", emails:["ash6b@virginia.edu — Andrea Denton","dnm5ca@virginia.edu — David Martin"], links:[["HSL homepage","https://hsl.virginia.edu"],["Citation management (Zotero)","https://hsl.virginia.edu/citationmanagement"],["Open access / journal choice","https://hsl.virginia.edu/sci-writing/oa"],["UNC Systematic Reviews guide","https://guides.lib.unc.edu/systematic-reviews"],["View full deck (Box folder)",BOX]], extra:"Tools: LibKey Nomad, Virgo, ILLiad, Zotero & EndNote, Covidence & Rayyan, Embase, PROSPERO." },
+  { name:"Ileana Mauldin, PhD", type:"bootcamp", role:"Director, Molecular Immunologic & Translational Sciences (MITS) Core", talk:"UVA Core Labs (also: Introduction to Graphical Abstracts)", meta:"Boot Camp 2024 & 2025", topics:"core labs ilab flow cytometry histology spatial biology genomics imaging btrf molmart shared resources graphical abstracts", emails:["is3v@virginia.edu — Ileana Mauldin / MITS Core, 434-982-3508","jlc6y@virginia.edu — Jessica Snow, MolMart, 434-924-9211","pp6f@virginia.edu — Pat Pramoonjago, BTRF, 434-982-0488","slv4e@virginia.edu — Sheri VanHoose, Research Histology, 434-924-9205","mds4z@virginia.edu — Michael Solga, Flow Cytometry, 434-924-0274","ak4yj@virginia.edu — Ana Karina de Oliveira, Spatial Biology, 434-924-1753","ks5uq@virginia.edu — Katia Sol-Church, Genome Analysis, 434-297-6650","pk7z@virginia.edu — Pankaj Kumar, Bioinformatics, 434-982-2820","szz4sh@virginia.edu — Brian Ruis, Genome Engineering (GESR), 434-297-9458","qsj6gh@virginia.edu — Daniel Grigsby, GEMM Core, 434-982-3990","m.a.jansen@virginia.edu — Maurits Jansen, Molecular Imaging, 434-924-5096","krs5xf@virginia.edu — Shivashankar Khanapur, Radiochemistry, 434-243-4969","Raphael.Malbrue@virginia.edu — Ralph Malbrue, Comparative Medicine, 434-924-5058"], links:[["SOM & Cancer Center core facilities directory","https://med.virginia.edu/core-facilities/cores/"],["iLab (request services / pricing)","https://uva.corefacilities.org/account/login"],["View full deck (Box folder)",BOX]] },
+  { name:"Kristin Anderson, PhD", type:"bootcamp", role:"Asst. Professor, Microbiology/Immunology/Cancer Biology & OB-GYN; Carter Center", talk:"How to Write and Revise a Peer-Review Manuscript", meta:"Boot Camp 2025", topics:"manuscript writing peer review publishing journal selection rejection reasons author perspective", emails:["Kristin.anderson@virginia.edu"], links:[["JAMA AI-use instructions for authors","https://jamanetwork.com/journals/jama/pages/instructions-for-authors#SecUseofAIinPublicationandResearch"],["View full deck (Box folder)",BOX]], extra:"Companion talk to Dean Kibbe's, from the author's perspective." },
+  { name:"Russell Witt, MD, MAS", type:"bootcamp", role:"Assistant Professor of Surgery", talk:"Harnessing the Power of AI in Surgical Academia", meta:"Boot Camp 2024–2026", topics:"artificial intelligence ai chatgpt dalle semantic scholar abstract writing productivity paperpal literature review", emails:[], links:[["Semantic Scholar (Allen Institute for AI)","https://www.semanticscholar.org/"],["Spotting AI-generated writing (YouTube short)","https://youtube.com/shorts/34BmRpsDTh0"],["View full deck (Box folder)",BOX]], extra:"Tools discussed: Semantic Scholar, ChatGPT/DALL·E, and Paperpal Preflight (Annals of Surgery submission check). Frames AI as assistive intelligence — good for emails, summarizing, proofreading, and idea generation, but unreliable as a search engine. Notes NIH policy limiting AI-substantially-developed applications." },
+  { name:"Craig Slingluff, MD", type:"bootcamp", role:"T32 Program Director, Surgical Oncology", talk:"Expectations and Guidelines for Research Residents", meta:"Boot Camp 2024–2026", topics:"expectations productivity publications grants biosketch idp nih public access pmcid t32 research residents", emails:["quw7kd@uvahealth.org — send productivity updates to Erin Haggard","smcconnell@ramdocs.org — Susan McConnell, ACS paper competition"], links:[["UVA Postdoc IDP","https://postdoc.virginia.edu/career-development/individual-development-plans"],["NIH eIDP","https://idp.nih.gov/"],["myIDP (AAAS)","http://myidp.sciencecareers.org"],["NIH biosketch templates","https://grants.nih.gov/grants/forms/biosketch.htm"],["VA Chapter ACS COT/COC Paper Competition","https://virginiaacs.org/cot%2Fcoc-paper-competition"],["View full deck (Box folder)",BOX]], extra:"Friday RIP meetings: 1st Fridays 11:30am–1pm, MR6 G501. NIH public-access compliance (NIHMS → PMCID) required for T32 papers." },
+  { name:"Victor Laubach, PhD", type:"bootcamp", role:"Professor of Surgery", talk:"Maintaining Your Academic CV & Biosketch", meta:"Boot Camp — July 2024", topics:"cv curriculum vitae biosketch nih academic career promotion tenure", emails:[], links:[["UVA Faculty Development — P&T / CV","https://uvasomfacdev.wordpress.com/2015/01/22/promotion-tenure-preparing-your-cv-3/"],["Science Careers — CV tips","https://www.science.org/content/article/tips-successful-cv"],["Vitae — academic CV","https://www.vitae.ac.uk/researcher-careers/pursuing-an-academic-career/how-to-write-an-academic-cv"],["AAMC — CV strategies","https://www.aamc.org/members/gfa/faculty_vitae/150034/preparing_your_curriculum_vitae.html"],["View full deck (Box folder)",BOX]] },
+  { name:"Nick Tsihlis, PhD & Nicholas Teman, MD", type:"bootcamp", role:"Department of Surgery", talk:"From Framing a Scientific Question to Designing Experiments", meta:"Boot Camp 2024–2026 (Teman & Tsihlis)", topics:"scientific question hypothesis finer pico spider experiment design specific aims research methods", emails:[], links:[["Willis, Respir Care 2023;68(8):1180-1185","https://pubmed.ncbi.nlm.nih.gov/37041024/"],["Covvey et al., Res Social Adm Pharm 2024;20(1):66-69","https://pubmed.ncbi.nlm.nih.gov/37838572/"],["View full deck (Box folder)",BOX]] },
+  { name:"DOS Research Resident Funding Opportunity Microsite", type:"funding", role:"Department of Surgery — Division of Surgical Sciences", talk:"Interactive guide to funding sources and how to search for them", meta:"Genially microsite", topics:"funding grants microsite genially guide research resident", emails:[], links:[["Open the Genially funding guide","https://view.genially.com/6671973a961ef3001437205b/guide-dos-research-resident-funding-opportunity-microsite"]] },
+  { name:"UVA Comprehensive Cancer Center Internal Funding Resources", type:"funding", role:"UVA Comprehensive Cancer Center", talk:"Pilot project, seed grant, trainee travel, and other internal cancer-specific funding opportunities", meta:"Cancer Center funding resources page", topics:"cancer center internal funding pilot seed grant trainee travel infoready", emails:[], links:[["View Cancer Center funding resources","https://med.virginia.edu/cancer-research/research-resources/funding-opportunities/"]] },
+  { name:"Funding Opportunities — Office for Research", type:"funding", role:"UVA School of Medicine, Office for Research", talk:"Curated list of extramural and intramural funding opportunities", meta:"SOM Office for Research page", topics:"funding opportunities office for research som school of medicine grants", emails:[], links:[["View funding opportunities","https://med.virginia.edu/office-for-research/funding-opportunities/"]] },
+  { name:"UVA Core Facilities — Overview", type:"cores", role:"SOM & Cancer Center core facilities directory", talk:"Full directory of core facilities and how to request services", meta:"From Ileana Mauldin, PhD — Boot Camp 2024 & 2025", topics:"core facilities directory ilab overview shared resources", emails:[], links:[["SOM & Cancer Center core facilities directory","https://med.virginia.edu/core-facilities/cores/"],["iLab (request services / pricing)","https://uva.corefacilities.org/account/login"]] },
+  { name:"MITS Core (Molecular Immunologic & Translational Sciences)", type:"cores", role:"Director: Ileana Mauldin, PhD — 3842 Old Medical School", talk:"Tissue procurement and molecular/translational assay services (IHC, ISH, multiplex staining) supporting immunologic and translational research", meta:"Core facility", topics:"mits core tissue ihc ish multiplex staining mauldin", emails:["is3v@virginia.edu — Ileana Mauldin, PhD, 434-982-3508"], links:[] },
+  { name:"MolMart", type:"cores", role:"Contact: Jessica Snow — Pinn 2026", talk:"Discounted lab reagents, plasticware, and consumables for on-Grounds researchers", meta:"Core facility / supply store", topics:"molmart lab supplies reagents plasticware consumables discount", emails:["jlc6y@virginia.edu — Jessica Snow, 434-924-9211"], links:[] },
+  { name:"BTRF Biorepository", type:"cores", role:"Director: Pat Pramoonjago, PhD — G710 MR6", talk:"Collection, processing, and storage of human biospecimens (tissue, blood, biofluids) for research use", meta:"Core facility", topics:"btrf biorepository tissue blood biofluid biospecimen storage pramoonjago", emails:["pp6f@virginia.edu — Pat Pramoonjago, PhD, 434-982-0488"], links:[] },
+  { name:"Research Histology", type:"cores", role:"Contact: Sheri VanHoose — MR4, room 1035", talk:"Tissue processing, embedding, sectioning, and staining (H&E, special stains) services", meta:"Core facility", topics:"research histology tissue processing embedding sectioning staining vanhoose", emails:["slv4e@virginia.edu — Sheri VanHoose, 434-924-9205"], links:[] },
+  { name:"Flow Cytometry Core", type:"cores", role:"Contact: Michael Solga — Pinn 2011", talk:"Cell sorting and multiparameter flow cytometry analysis services", meta:"Core facility", topics:"flow cytometry core cell sorting analysis solga", emails:["mds4z@virginia.edu — Michael Solga, 434-924-0274"], links:[] },
+  { name:"Spatial Biology Core", type:"cores", role:"Director: Ana Karina de Oliveira, PhD — Pinn 1071", talk:"Spatial transcriptomics and spatial proteomics imaging services", meta:"Core facility", topics:"spatial biology core transcriptomics proteomics imaging de oliveira", emails:["ak4yj@virginia.edu — Ana Karina de Oliveira, PhD, 434-924-1753"], links:[] },
+  { name:"Genome Analysis & Technology Core", type:"cores", role:"Director: Katia Sol-Church, PhD — Pinn 1060", talk:"Next-generation sequencing, microarray, and genotyping services", meta:"Core facility", topics:"genome analysis technology core sequencing microarray genotyping sol-church", emails:["ks5uq@virginia.edu — Katia Sol-Church, PhD, 434-297-6650"], links:[] },
+  { name:"Bioinformatics Core", type:"cores", role:"Director: Pankaj Kumar, PhD — Pinn 1312", talk:"Computational analysis support for genomic, transcriptomic, and other high-throughput datasets", meta:"Core facility", topics:"bioinformatics core computational analysis genomic transcriptomic kumar", emails:["pk7z@virginia.edu — Pankaj Kumar, PhD, 434-982-2820"], links:[] },
+  { name:"Genome Engineering (GESR)", type:"cores", role:"Contact: Brian Ruis — Pinn 6218", talk:"CRISPR / gene-editing and transgenic model design services", meta:"Core facility", topics:"genome engineering gesr crispr gene editing transgenic model ruis", emails:["szz4sh@virginia.edu — Brian Ruis, 434-297-9458"], links:[] },
+  { name:"GEMM Core", type:"cores", role:"Director: Daniel Grigsby, PhD — Pinn 2223", talk:"Generation and maintenance of genetically engineered mouse models for research", meta:"Core facility", topics:"gemm core genetically engineered mouse models grigsby", emails:["qsj6gh@virginia.edu — Daniel Grigsby, PhD, 434-982-3990"], links:[] },
+  { name:"Molecular Imaging Core", type:"cores", role:"Director: Maurits Jansen, PhD — Snyder Building / MR4", talk:"Small-animal PET/CT/SPECT and optical imaging services", meta:"Core facility", topics:"molecular imaging core pet ct spect optical imaging jansen", emails:["m.a.jansen@virginia.edu — Maurits Jansen, PhD, 434-924-5096"], links:[] },
+  { name:"Radiochemistry Core", type:"cores", role:"Contact: Shivashankar Khanapur", talk:"Production of radiotracers and radiolabeled compounds for molecular imaging studies", meta:"Core facility", topics:"radiochemistry core radiotracer radiolabeled compound khanapur", emails:["krs5xf@virginia.edu — Shivashankar Khanapur, 434-243-4969"], links:[] },
+  { name:"Comparative Medicine", type:"cores", role:"Contact: Ralph Malbrue", talk:"Animal care facility oversight and veterinary/husbandry support for animal research", meta:"Core facility", topics:"comparative medicine animal care veterinary husbandry malbrue", emails:["Raphael.Malbrue@virginia.edu — Ralph Malbrue, 434-924-5058"], links:[] }
+];
+
+const TAGS = {
+  rip:      { label:"RIP Series",    bg:"#eaf0f7", ink:"#244a7a" },
+  bootcamp: { label:"Boot Camp",     bg:"#fdeede", ink:"#9a4e08" },
+  cores:    { label:"Core Facility", bg:"#e9f5ef", ink:"#1a6b46" },
+  funding:  { label:"Funding",       bg:"#f4ecf9", ink:"#6a2c94" }
+};
+
+const TRAVEL = "https://mjf6e.github.io/uva-surgery-travel-policy-2026/";
+const HSL = "https://cal.hsl.virginia.edu/calendar/data/?cid=-1&t=g&d=0000-00-00&cal=-1&inc=0";
+
+const app = document.getElementById('app');
+let S = { screen:'home', query:'', filter:'all', sel:null, stack:[] };
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const set = p => { S = Object.assign({}, S, p); render(); };
+const go = (screen, p) => set(Object.assign({ screen, stack:S.stack.concat(S.screen) }, p||{}));
+const back = () => { const st = S.stack.slice(); const prev = st.pop() || 'home'; set({ screen:prev, stack:st, sel:prev==='detail'?S.sel:null }); };
+const ext = url => window.open(url, '_blank', 'noopener');
+const blob = p => (p.name+' '+p.role+' '+p.talk+' '+p.meta+' '+(p.topics||'')+' '+p.emails.join(' ')+' '+p.links.map(l=>l[0]+' '+l[1]).join(' ')+' '+(p.extra||'')).toLowerCase();
+const nBy = t => DATA.filter(p=>p.type===t).length;
+
+function pool(){
+  const scope = S.screen==='presenters' ? ['rip','bootcamp']
+    : S.screen==='cores' ? ['cores']
+    : S.screen==='funding' ? ['funding']
+    : ['rip','bootcamp','cores','funding'];
+  const terms = S.query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  return DATA.filter(p=>scope.includes(p.type))
+    .filter(p=>S.filter==='all'||p.type===S.filter)
+    .filter(p=>{ if(!terms.length) return true; const b = blob(p); return terms.every(t=>b.includes(t)); });
+}
+
+function header(title, count){
+  const chipDefs = S.screen==='presenters' ? [['all','All'],['rip','RIP Series'],['bootcamp','Boot Camp']]
+    : S.screen==='search' ? [['all','All'],['rip','RIP Series'],['bootcamp','Boot Camp'],['cores','Cores'],['funding','Funding']]
+    : [['all','All']];
+  return '<div class="hd"><div class="ring r2"></div>'
+    + '<div class="hrow"><button class="back" data-act="back" aria-label="Back">&lsaquo;</button>'
+    + '<div class="htitle">'+esc(title)+'</div><div class="hcount">'+count+'</div></div>'
+    + '<label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8CBD2" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
+    + '<input id="q" type="search" value="'+esc(S.query)+'" placeholder="Search presenters, talks, resources\u2026" autocomplete="off" autocapitalize="none"></label>'
+    + '<div class="chips">'+chipDefs.map(c=>'<button data-filter="'+c[0]+'" aria-pressed="'+(S.filter===c[0])+'">'+esc(c[1])+'</button>').join('')+'</div>'
+    + '</div>';
+}
+
+function rowsHTML(list){
+  if(!list.length) return '<div class="empty">No entries match your search. Try a different term or clear the filters.</div>';
+  return list.map(p=>{
+    const t = TAGS[p.type], bits = [];
+    if(p.links.length) bits.push(p.links.length+(p.links.length===1?' resource':' resources'));
+    if(p.emails.length) bits.push(p.emails.length+(p.emails.length===1?' contact':' contacts'));
+    return '<button class="row" data-open="'+esc(p.name)+'"><div class="col">'
+      + '<span class="tag" style="background:'+t.bg+';color:'+t.ink+'">'+esc(t.label)+'</span>'
+      + '<div class="name">'+esc(p.name)+'</div><div class="sub">'+esc(p.talk)+'</div>'
+      + (bits.length?'<div class="meta">'+esc(bits.join('  \u00b7  '))+'</div>':'')
+      + '</div><span class="chev">&rsaquo;</span></button>';
+  }).join('');
+}
+
+function home(){
+  return '<div class="screen"><div class="hd hero">'
+    + '<div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>'
+    + '<div class="eyebrow">Research Resident</div><h1>Virtual<br>Toolbox</h1>'
+    + '<label class="search" data-act="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8CBD2" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
+    + '<input type="search" placeholder="Ask the toolbox\u2026" readonly></label>'
+    + '<div class="sugg">'+['IRB','biosketch','flow cytometry','travel','GrantForward'].map(q=>'<button data-q="'+q+'">'+q+'</button>').join('')+'</div>'
+    + '</div><div class="body hero-body">'
+    + '<div class="label">Start here</div><div class="tiles">'
+    + [['01','Presenters',(nBy('rip')+nBy('bootcamp'))+' talks','presenters'],
+       ['02','Resources','Every link','search'],
+       ['03','Cores',nBy('cores')+' facilities','cores'],
+       ['04','Funding',nBy('funding')+' sources','funding']]
+      .map(t=>'<button class="tile" data-go="'+t[3]+'"><span class="n">'+t[0]+'</span><span><span class="t">'+t[1]+'</span><span class="s" style="display:block">'+t[2]+'</span></span></button>').join('')
+    + '</div>'
+    + '<button class="out hi" data-ext="'+BOX+'"><span><span class="t">Full decks in Box</span><span class="s" style="display:block">NetBadge sign-in</span></span><span class="arrow">\u2197</span></button>'
+    + '<button class="out" data-ext="'+TRAVEL+'"><span><span class="t">Travel policy</span><span class="s" style="display:block">Approvals &amp; booking</span></span><span class="arrow">\u2197</span></button>'
+    + '<button class="out" data-ext="'+HSL+'"><span><span class="t">HSL workshops</span><span class="s" style="display:block">Research &amp; data calendar</span></span><span class="arrow">\u2197</span></button>'
+    + '<div class="fine">Links transcribed from presenter slides \u2014 verify before relying on them. Next RIP forum: first Friday, 11:30am\u20131pm, MR6 G501.</div>'
+    + '</div></div>';
+}
+
+function detail(){
+  const p = S.sel, t = TAGS[p.type];
+  let h = '<div class="screen"><div class="hd"><div class="ring r2"></div><div class="ring r3"></div>'
+    + '<div class="hrow"><button class="back" data-act="back" aria-label="Back">&lsaquo;</button><span class="dtag">'+esc(t.label)+'</span></div>'
+    + '<div class="dname">'+esc(p.name)+'</div><div class="drole">'+esc(p.role)+'</div></div><div class="body">';
+  h += '<div class="sect"><div class="k">Talk</div><div class="talk">'+esc(p.talk)+'</div><div class="tmeta">'+esc(p.meta)+'</div></div>';
+  if(p.emails.length){
+    h += '<div class="sect"><div class="k acc">Contact</div>'+p.emails.map(e=>{
+      const addr = e.split(' \u2014 ')[0].trim();
+      const label = e.indexOf(' \u2014 ')>-1 ? e.split(' \u2014 ').slice(1).join(' \u2014 ') : '';
+      return '<a class="item" href="mailto:'+esc(addr)+'"><span class="dot">\u00b7</span><span class="col"><span class="p" style="display:block">'+esc(addr)+'</span>'
+        + (label?'<span class="q" style="display:block">'+esc(label)+'</span>':'')+'</span></a>';
+    }).join('')+'</div>';
+  }
+  if(p.links.length){
+    h += '<div class="sect"><div class="k acc">Resources &amp; websites</div>'+p.links.map(l=>
+      '<a class="item" href="'+esc(l[1])+'" target="_blank" rel="noopener"><span class="dot">\u00b7</span><span class="col">'
+      + '<span class="p" style="display:block">'+esc(l[0])+'</span><span class="q" style="display:block">'+esc(l[1].replace(/^https?:\/\//,'').split('/')[0])+'</span></span>'
+      + '<span class="ext">\u2197</span></a>').join('')+'</div>';
+  }
+  if(p.extra) h += '<div class="callout"><span class="star">\u2605</span><span class="txt">'+esc(p.extra)+'</span></div>';
+  return h + '</div></div>';
+}
+
+function render(){
+  const titles = { search:'Search', presenters:'Presenters', cores:'Core facilities', funding:'Funding' };
+  if(S.screen==='home') app.innerHTML = home();
+  else if(S.screen==='detail') app.innerHTML = detail();
+  else {
+    const list = pool();
+    app.innerHTML = '<div class="screen">'+header(titles[S.screen], list.length+(list.length===1?' entry':' entries'))
+      + '<div class="body">'+rowsHTML(list)+'</div></div>';
+    const q = document.getElementById('q');
+    if(q){ q.addEventListener('input', e=>{ S.query = e.target.value; const l = pool();
+      document.querySelector('.body').innerHTML = rowsHTML(l);
+      document.querySelector('.hcount').textContent = l.length+(l.length===1?' entry':' entries'); }); }
+  }
+  history.replaceState(null,'','#'+S.screen);
+  window.scrollTo(0,0);
+}
+
+app.addEventListener('click', e=>{
+  const el = e.target.closest('[data-act],[data-go],[data-q],[data-ext],[data-open],[data-filter]');
+  if(!el) return;
+  if(el.dataset.act==='back') return back();
+  if(el.dataset.act==='search') return go('search',{query:'',filter:'all'});
+  if(el.dataset.go) return go(el.dataset.go,{query:'',filter:'all'});
+  if(el.dataset.q) return go('search',{query:el.dataset.q,filter:'all'});
+  if(el.dataset.ext) return ext(el.dataset.ext);
+  if(el.dataset.filter) return set({filter:el.dataset.filter});
+  if(el.dataset.open){ const p = DATA.find(d=>d.name===el.dataset.open); if(p) go('detail',{sel:p}); }
+});
+window.addEventListener('popstate', back);
+render();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
